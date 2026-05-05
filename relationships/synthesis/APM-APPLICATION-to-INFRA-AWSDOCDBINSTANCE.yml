@@ -42,5 +42,11 @@ relationships:
         lookupGuid:
           candidateCategory: AWSDOCDBINSTANCE
           fields:
-            - field: endpoint
+            # Extract instance identifier from hostname (e.g., rpaliwal-docdb-instance-1.coubraw8zuju.us-east-1.docdb.amazonaws.com -> rpaliwal-docdb-instance-1)
+            - field: instanceId
               attribute: peer.hostname
+              regex: '^([^.]+)\..*\.docdb\.amazonaws\.com$'
+              regexCaptureGroup: 1
+            # Also pass port for additional matching when available
+            - field: port
+              attribute: server.port
